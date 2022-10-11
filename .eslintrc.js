@@ -34,6 +34,7 @@ module.exports = {
   ],
   plugins: ['react', 'react-hooks', '@typescript-eslint', 'prettier'],
   rules: {
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     camelcase: 'error',
     'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     'prettier/prettier': 'error',
