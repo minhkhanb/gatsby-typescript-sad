@@ -7,26 +7,33 @@ const Home = () => (
   <div>
     <h1>Home</h1>
     <nav>
-      <Link to='/home'>Home</Link> | <Link to='/dashboard'>Dashboard</Link>
+      <Link to='/home'>Home</Link> | <Link to='/home/dashboard'>Dashboard</Link>
     </nav>
   </div>
 );
 
-const Dash = () => <div>Dash</div>;
+const Dash = () => (
+  <div>
+    <h1>Dash</h1>
+    <nav>
+      <Link to='/home'>Home</Link> | <Link to='/home/dashboard'>Dashboard</Link>
+    </nav>
+  </div>
+);
 
-const IndexPage = ({ location }: RouterProps) => {
+const HomePage = ({ location }: RouterProps) => {
   return (
     <Layout location={location}>
-      <div>Index</div>
+      <div>Home Page</div>
 
       <Router>
         <Home path='/home' />
-        <Dash path='/dashboard' />
+        <Dash path='/home/dashboard' />
       </Router>
     </Layout>
   );
 };
 
-export default IndexPage;
+export default HomePage;
 
 export const Head: HeadFC = () => <title>Home Page</title>;

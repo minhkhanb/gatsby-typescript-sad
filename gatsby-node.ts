@@ -15,8 +15,8 @@ export const onCreateWebpackConfig = ({ actions }: any) => {
 
 export const onCreatePage = async ({ page, actions }: any) => {
   const { createPage } = actions;
-  if (page.path.match(/^\/webinar/)) {
-    page.matchPath = '/webinar/*';
+  if (page.path.match(/^\/home/)) {
+    page.matchPath = '/home/*';
     // Update the page.
     createPage(page);
   }
