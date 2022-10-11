@@ -5,6 +5,7 @@ import { RouterProps } from '@gatsbyjs/reach-router';
 import resolveConfig from 'tailwindcss/resolveConfig';
 import tailwindConfigFile from '../../../tailwind.config';
 import { Config } from 'tailwindcss';
+import tw from 'twin.macro';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -34,6 +35,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ location, children }) =>
         className='text-gray'
         css={css`
           background: green;
+          ${tw`bg-gray-800`}
         `}
       >
         Layout
