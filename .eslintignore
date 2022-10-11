@@ -1,0 +1,7 @@
+public
+static
+.cache
+gatsby-node.ts
+gatsby-config.ts
+gatsby-browser.js
+gatsby-ssr.js
