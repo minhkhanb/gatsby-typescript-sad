@@ -43,5 +43,6 @@ module.exports = {
     'react/no-children-prop': 'warn',
     'react/jsx-key': 'warn',
     'react-hooks/exhaustive-deps': 'warn',
+    'react/no-unknown-property': ['error', { ignore: ['css'] }],
   },
 };

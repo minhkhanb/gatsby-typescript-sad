@@ -29,6 +29,7 @@ const config: GatsbyConfig = {
       __key: 'images',
     },
     `gatsby-plugin-sass`,
+    `gatsby-plugin-postcss`,
   ],
 };
 
