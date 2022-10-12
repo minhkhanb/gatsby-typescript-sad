@@ -2,6 +2,8 @@ import * as React from 'react';
 import type { HeadFC } from 'gatsby';
 import Layout from '@src/components/Layout';
 import { RouterProps, Router, Link } from '@gatsbyjs/reach-router';
+import { useSelector } from 'react-redux';
+import { RootState } from '@src/store/reducers/rootReducer';
 
 const Home = () => (
   <div>
@@ -22,6 +24,10 @@ const Dash = () => (
 );
 
 const HomePage = ({ location }: RouterProps) => {
+  const { repos } = useSelector((state: RootState) => state.auth);
+
+  console.log('repos: ', repos);
+
   return (
     <Layout location={location}>
       <div>Home Page</div>

@@ -10,7 +10,6 @@ export const logger = (() => ({
     console.debug(...args);
   },
   log(...args: any[]) {
-    console.log('args: ', args);
     console.log(...args);
   },
   warn(...args: any[]) {
