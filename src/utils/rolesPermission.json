@@ -1,0 +1,10 @@
+{
+  "portalDashboard": {
+    "path": "/home/dashboard",
+    "permission": {
+      "Admin": true,
+      "Tester": true,
+      "EndUser": true
+    }
+  }
+}

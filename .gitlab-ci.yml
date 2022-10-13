@@ -1,0 +1,57 @@
+stages:
+  - test
+  - deploy
+
+.prepare-environment: &prepare-environment
+  - echo "GATSBY_API_SERVER_URL=\$GATSBY_API_SERVER_URL_EXT"> .env
+
+.clean-up-environment: &clean-up-environment
+  - rm -rf .env
+
+.deploy-steps: &deploy-steps
+  - npm install --silent
+  - *prepare-environment
+  - npm run build
+  - *clean-up-environment
+  - aws s3 rm s3://$WEB_BUCKET_NAME/ --recursive
+  - aws s3 sync ./public/ s3://$WEB_BUCKET_NAME/ --delete --cache-control max-age=604800
+  - aws cloudfront create-invalidation --distribution-id=$CDN_DISTRIBUTION_ID --paths "/*"
+
+.setup-build-cli: &setup-build-cli
+  - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+  - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+  - aws configure set region $AWS_DEFAULT_REGION
+
+test:
+  image: node:14
+  stage: test
+  script:
+    - echo "Run test"
+
+deploy-development:
+  stage: deploy
+  image: sleavely/node-awscli:14.x
+  variables:
+    WEB_BUCKET_NAME: $DEV_WEB_BUCKET_NAME
+    CDN_DISTRIBUTION_ID: $DEV_CDN_DISTRIBUTION_ID
+    GATSBY_API_SERVER_URL_EXT: $DEV_GATSBY_API_SERVER_URL
+  before_script:
+    - *setup-build-cli
+  script:
+    - *deploy-steps
+  only:
+    - develop
+
+deploy-uat:
+  stage: deploy
+  image: sleavely/node-awscli:14.x
+  variables:
+    WEB_BUCKET_NAME: $UAT_WEB_BUCKET_NAME
+    CDN_DISTRIBUTION_ID: $UAT_CDN_DISTRIBUTION_ID
+    GATSBY_API_SERVER_URL_EXT: $UAT_GATSBY_API_SERVER_URL
+  before_script:
+    - *setup-build-cli
+  script:
+    - *deploy-steps
+  only:
+    - uat

@@ -45,5 +45,7 @@ module.exports = {
     'react/jsx-key': 'warn',
     'react-hooks/exhaustive-deps': 'warn',
     'react/no-unknown-property': ['error', { ignore: ['css'] }],
+    'react/display-name': 'off',
+    'react/prop-types': 'off',
   },
 };

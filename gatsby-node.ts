@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { resolve } from 'path';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 

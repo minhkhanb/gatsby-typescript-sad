@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { css, ThemeProvider } from '@emotion/react';
-import { RouterProps } from '@gatsbyjs/reach-router';
+import { ThemeProvider } from '@emotion/react';
+import { RouterProps, useLocation } from '@gatsbyjs/reach-router';
 import resolveConfig from 'tailwindcss/resolveConfig';
 import tailwindConfigFile from '../../../tailwind.config';
 import { Config } from 'tailwindcss';
-import tw from 'twin.macro';
+import { navigate } from 'gatsby';
+import { getLoggedUser, hasPermission } from '@src/utils';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -27,20 +28,56 @@ const theme = {
   media,
 };
 
+export const RedirectIfNoPermission: React.FunctionComponent = () => {
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    const canAccess = hasPermission(pathname);
+
+    console.log('ca: ', canAccess);
+
+    if (!canAccess) {
+      navigate('/login');
+    }
+  }, [pathname]);
+
+  return null;
+};
+
+const PermissionContext = React.createContext({});
+
+type PermissionProviderProps = {
+  children: React.ReactNode;
+};
+
+const PermissionProvider: React.FunctionComponent<PermissionProviderProps> = ({ children }) => {
+  const loggedUser = getLoggedUser();
+
+  if (!loggedUser) {
+    return <div>Loading...</div>;
+  }
+
+  return <PermissionContext.Provider value={{}}>{children}</PermissionContext.Provider>;
+};
+
+type RouterGuardProps = {
+  location: RouterProps['location'];
+  children: React.ReactNode;
+};
+
+const RouterGuard = ({ children }: RouterGuardProps) => {
+  return (
+    <>
+      <RedirectIfNoPermission />
+      <PermissionProvider>{children}</PermissionProvider>
+    </>
+  );
+};
+
 const Layout: React.FunctionComponent<LayoutProps> = ({ location, children }) => {
-  console.log('location: ', location);
   return (
     <ThemeProvider theme={theme}>
-      <h1
-        className='text-gray'
-        css={css`
-          background: green;
-          ${tw`bg-gray-800`}
-        `}
-      >
-        Layout
-      </h1>
-      {children}
+      <RouterGuard location={location}>{children}</RouterGuard>
     </ThemeProvider>
   );
 };
