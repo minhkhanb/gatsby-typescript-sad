@@ -17,3 +17,7 @@ export const enumValuesToArray = (
     [propValue]: val,
     [subProp]: val,
   }));
+
+export const createKeys = <T>(keyRecord: Record<keyof T, any>): (keyof T)[] => {
+  return Object.keys(keyRecord) as any;
+};
